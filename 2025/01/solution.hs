@@ -1,15 +1,11 @@
-import Test.HUnit
+parseInput :: String -> Int
+parseInput w = do
+  let num = read $ drop 1 w
+  if head w == 'L'
+    then (-1) * num
+    else num
 
--- TODO: read and parse input file
+rotateDial :: Int -> Int -> Int
+rotateDial pos amount = (pos + amount) `rem` 100
 
-rotate pos amount = (pos + amount) `rem` 100
-
-solution input = length $ filter (0==) $ scanl (rotate) 50 input
-
-main :: IO Counts
-main = runTestTT $ tests
-
-tests :: Test
-tests = do
-    let input = [-68, -30, 48, -5, 60, -55, -1, -99, 14, -82]
-    TestCase (solution input @?= 3)
+main = interact $ show . length . filter (0==) . scanl rotateDial 50 . map parseInput . words
